@@ -35,14 +35,16 @@ def createCommandEncryptionPair(key):
 
     # Convert the hex key to bytes
     stringKey = bytes.fromhex(key)
+    
+    print(stringKey.hex())
 
     # Create a cipher with 3DES algorithm
     gsCipher = Cipher(
-        algorithms.TripleDES(stringKey[:16]),
+        algorithms.TripleDES(stringKey),
         mode=modes.CBC(bytes.fromhex("0000000000000000")),
     ).encryptor()
     gsDecipher = Cipher(
-        algorithms.TripleDES(stringKey[:16]),
+        algorithms.TripleDES(stringKey),
         mode=modes.CBC(bytes.fromhex("0000000000000000")),
     ).decryptor()
 
@@ -51,14 +53,14 @@ def createCommandEncryptionPair(key):
 
 def main():
     # Create a key
-    skey = "f31b45589438463a"
-    sessionKey = "84d2b3b979dc230c150f173101068593"
+    skey = "1393b98ba384b184"
+    sessionKey = "1393b98ba384b184122dff374d196ce9ec75ea5d55763bce8cef8f136bb628a1"
 
     dataStart = bytearray.fromhex(
         "d50000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
     )
 
-    commandStart = bytearray.fromhex("02dec1bc8578b687")
+    commandStart = bytearray.fromhex("030c0004cdcdcdcd")
 
     # Create a data encryption pair
     dataEncryptionPair = createDataEncryptionPair(sessionKey)
