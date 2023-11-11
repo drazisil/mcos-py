@@ -57,8 +57,6 @@ def decryptSessionKey(key: bytes, private_key: rsa.RSAPrivateKey):
     :param private_key: The private key to use
 
     :returns: The decrypted session key"""
-    # Convert the hex key to bytes
-    key
 
     # Decrypt the session key
     sessionKey = private_key.decrypt(
@@ -121,6 +119,7 @@ def parseStringWithLengthPrefix(data: bytes):
     string = data[2 : 2 + length].decode("utf-8")
 
     return string
+
 
 class BasePacketHeader:
     """Base packet header"""
@@ -188,6 +187,7 @@ class VersionedPacketHeader(BasePacketHeader):
             self._opcode, self._length, self._Version
         )
 
+
 class LoginPacket(RawPacket):
     """Login packet"""
 
@@ -199,7 +199,9 @@ class LoginPacket(RawPacket):
         """Parse a login packet"""
         try:
             self._header = new = VersionedPacketHeader(
-                int(buf[0:2].hex(), 16), int(buf[2:4].hex(), 16), int(buf[4:6].hex(), 16)
+                int(buf[0:2].hex(), 16),
+                int(buf[2:4].hex(), 16),
+                int(buf[4:6].hex(), 16),
             )
             assert len(buf) >= (self._header._length)
             self._data = buf[12:].hex()
@@ -214,6 +216,7 @@ class LoginPacket(RawPacket):
 
     def __str__(self):
         return "Header:\n{0}\nData:\n{1}".format(self._header, self._data)
+
 
 def parsePacket(data: bytes):
     """Parse a packet"""
